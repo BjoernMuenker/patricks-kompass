@@ -1,0 +1,31 @@
+{
+  "name": "pokemon-jga",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.7.0",
+    "@vueuse/core": "^11.3.0",
+    "firebase": "^10.8.1",
+    "gsap": "3.13.0",
+    "howler": "2.2.4",
+    "mitt": "^3.0.1",
+    "nuxt": "3.13.2",
+    "pinia": "^2.2.6",
+    "pinia-plugin-persistedstate": "^4.1.2",
+    "vue": "latest",
+    "vue-router": "latest",
+    "vue3-touch-events": "^5.0.13"
+  },
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee",
+  "devDependencies": {
+    "@types/howler": "2.2.12",
+    "sass": "1.85.1"
+  }
+}

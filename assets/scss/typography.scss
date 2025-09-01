@@ -1,0 +1,14 @@
+.heading-big {
+  font-weight: font-weight('semibold');
+  @include fluid-value('font-size', 0, 80);
+}
+
+.heading-small {
+  font-weight: font-weight('semibold');
+  @include fluid-value('font-size', 0, 60);
+}
+
+p,
+.paragraph-default {
+  @include fluid-value('font-size', 0, 55);
+}

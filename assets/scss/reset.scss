@@ -1,0 +1,123 @@
+html {
+  height: -webkit-fill-available;
+  overflow: hidden;
+}
+
+html,
+body {
+  position: fixed;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#__nuxt,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+main {
+  position: relative;
+  overflow: auto;
+  overscroll-behavior: contain;
+  height: 100%;
+}
+
+body {
+  // font-family: 'Franklin', sans-serif;
+  // font-synthesis: none;
+  // text-rendering: optimizeLegibility;
+  // -webkit-font-smoothing: antialiased;
+  // -moz-osx-font-smoothing: grayscale;
+  font-family: 'Roboto Flex', sans-serif;
+  color: white;
+  background: color('dark');
+  font-size: 20px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  touch-action: manipulation;
+  // user-select: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  appearance: none;
+  outline: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  text-align: left;
+  font-size: inherit;
+  // @include fluid-value('font-size', 0, 55);
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+input {
+  font-family: inherit;
+  text-align: inherit;
+  font-size: inherit;
+}
+
+.select-wrapper {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    right: spacing('xs');
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cdefs%3E%3Cstyle%3E.cls-2%7Bfill:none;fill-rule:evenodd;stroke:%23000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;%7D%3C/style%3E%3C/defs%3E%3Cpolyline class='cls-2' points='14.05 5.75 8 11.79 1.95 5.75'/%3E%3C/svg%3E");
+  }
+}
+
+select {
+  appearance: none;
+  background: color('white');
+  color: color('black');
+  border: 1px solid color('grey');
+  padding: spacing('xxs') spacing('xs');
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+
+  &:focus,
+  &:active {
+    outline: none;
+    box-shadow: 0 0 0 1px color('black');
+  }
+}
+
+.zoom-out-enter-active,
+.zoom-out-leave-active,
+.zoom-out-big-enter-active,
+.zoom-out-big-leave-active {
+  transition: opacity 150ms ease-out, transform 150ms ease-out;
+}
+
+.zoom-out-enter-from,
+.zoom-out-leave-to {
+  opacity: 0;
+  transform: scale(1.1);
+}

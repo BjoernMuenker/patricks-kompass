@@ -1,0 +1,230 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:string';
+
+@function color($key) {
+  @return map-get-strict($colors, $key, 'colors');
+}
+
+@function breakpoint($key) {
+  @return map-get-strict($breakpoints, $key, 'breakpoints');
+}
+
+@function gradient($key) {
+  @return map-get-strict($gradients, $key, 'gradients');
+}
+
+@function font-weight($key) {
+  @return map-get-strict($font-weights, $key, 'font-weights');
+}
+
+@function spacing($key) {
+  @return map-get-strict($spacings, $key, 'spacings');
+}
+
+@function grid-margin($key) {
+  @return map-get-strict($grid-margins, $key, 'grid-margins');
+}
+
+@function transition($key) {
+  @return map-get-strict($transitions, $key, 'transitions');
+}
+
+@function module-spacing($key) {
+  @return map-get-strict($module-spacings, $key, 'module-spacings');
+}
+
+@function border-radius($key) {
+  @return map-get-strict($border-radius, $key, 'border-radius');
+}
+
+@function border($key) {
+  @return map-get-strict($borders, $key, 'borders');
+}
+
+@function box-shadow($key) {
+  @return map-get-strict($box-shadows, $key, 'box-shadows');
+}
+
+@function map-get-strict($map, $key, $map-name) {
+  @if map.has-key($map, $key) {
+    @return map.get($map, $key);
+  } @else {
+    @error "ERROR: index '#{$key}' does not exist on map '#{$map-name}'";
+  }
+}
+
+@function getLastItemOfMap($map) {
+  $lastItemIndex: length($map);
+
+  @each $key, $value in $map {
+    $i: index(($map), ($key $value));
+
+    @if ($i == $lastItemIndex) {
+      @return $value;
+    }
+  }
+}
+
+@function str-replace($string, $search, $replace: '') {
+  $index: string.index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+  $src: null;
+
+  $extmods: (
+    eot: '?',
+    svg: '#' + str-replace($name, ' ', '_'),
+  );
+
+  $formats: (
+    otf: 'opentype',
+    ttf: 'truetype',
+  );
+
+  @each $ext in $exts {
+    $extmod: if(map.has-key($extmods, $ext), $ext + map.get($extmods, $ext), $ext);
+    $format: if(map.has-key($formats, $ext), map.get($formats, $ext), $ext);
+    $src: list.append($src, url(string.quote($path + '.' + $extmod)) format(string.quote($format)), comma);
+  }
+
+  @font-face {
+    font-family: string.quote($name);
+    font-style: $style;
+    font-weight: $weight;
+    src: $src;
+  }
+}
+
+@mixin reset-img($width: 100%) {
+  display: block;
+  width: $width;
+  height: auto;
+}
+
+@mixin var-font-weight($weight) {
+  font-variation-settings: 'wght' $weight, 'slnt' 0;
+}
+
+@mixin focus() {
+  &:focus {
+    outline: 0;
+  }
+
+  &:focus-visible {
+    box-shadow: box-shadow('focus');
+  }
+}
+
+@mixin glossy-edge($offset: 22) {
+  &::before {
+    position: absolute;
+    content: '';
+    left: 50%;
+    top: 50%;
+    width: 100% - $offset;
+    height: 100% - $offset;
+    transform: translate(-50%, -50%);
+    border: 3px solid color('secondary-white');
+    border-radius: 50%;
+    clip-path: polygon(0% 10%, 50% 50%, 5% 0%, 20% 0%, 50% 50%, 100% 75%, 75% 100%, 50% 50%, 0% 40%);
+  }
+}
+
+@mixin generate-font-weight-classes {
+  @each $key, $value in $font-weights {
+    .font-weight-#{$key} {
+      font-weight: $value;
+    }
+  }
+}
+
+@mixin generate-color-classes {
+  @each $name, $value in $colors {
+    .background-#{$name},
+    [data-background-color='#{$name}'] {
+      background-color: $value;
+    }
+
+    .fill-#{$name},
+    [data-fill-color='#{$name}'] {
+      fill: $value;
+    }
+
+    .color-#{$name} {
+      color: $value;
+    }
+
+    .border-#{$name} {
+      border-color: $value;
+    }
+  }
+}
+
+@mixin breakpoint($size, $direction: min, $additionalQuerySize: '', $additionalQueryDirection: min) {
+  $query: createMediaQuery($size, $direction);
+
+  @if $additionalQuerySize != '' {
+    $additionalQuery: createMediaQuery($additionalQuerySize, $additionalQueryDirection);
+    @if ($additionalQuery) {
+      $query: $query + ' and ' + $additionalQuery;
+    }
+  }
+
+  @media #{$query} {
+    @content;
+  }
+}
+
+@function createMediaQuery($size, $direction) {
+  $breakpoint: map.get($breakpoints, $size);
+
+  @if $direction != min {
+    $direction: max;
+    $breakpoint: $breakpoint - 1;
+  }
+
+  $query: '(#{$direction}-width: #{$breakpoint})';
+  @return $query;
+}
+
+@mixin ie-only() {
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @content;
+  }
+}
+
+@mixin print {
+  @media print {
+    @content;
+  }
+}
+
+@mixin fluid-value($property, $min, $max, $axis: 'x', $screen-min: 0, $screen-max: 2000) {
+  #{$property}: #{$min}px;
+
+  $base: '100vw';
+
+  @if ($axis == 'y') {
+    $base: '100vh';
+  }
+
+  @media only screen and (min-width: #{$screen-min}px) {
+    #{$property}: calc(#{$min}px + #{($max - $min)} * (#{$base} - #{$screen-min}px) / (#{$screen-max} - #{$screen-min}));
+  }
+
+  @media only screen and (min-width: #{$screen-max}px) {
+    #{$property}: #{$max}px;
+  }
+}

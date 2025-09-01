@@ -1,0 +1,63 @@
+@use 'sass:map';
+
+$screen-tint: #a5b29c;
+
+$colors: (
+  'black': #000000,
+  'grey-light': #c4c4c4,
+  'grey': #5a594e,
+  'white': #ffffff,
+  'base': #a5b29c,
+  'dark': #121212,
+  'medium': #525e49,
+  'light': #7a8d6e,
+);
+
+$border-radius: (
+  'default': 4px,
+  'small': 8px,
+  'medium': 16px,
+  'large': 20px,
+  'xlarge': 24px,
+);
+
+$default-border-width: 4px;
+
+$borders: (
+  'default': $default-border-width solid map.get($colors, 'white'),
+);
+
+$box-shadows: (
+  'default': 0 0 8px black,
+);
+
+$breakpoints: (
+  'default': 0px,
+  'small': 480px,
+  'medium': 768px,
+  'large': 1024px,
+  'xlarge': 1440px,
+  'xxlarge': 1920px,
+);
+
+/* always use font-weight: font-weight(700) or font-weight: font-weight('bold'), but never directly as font-weight: 700, as you would be able to reference font-weights that are not included and will be rendered by using a different weight */
+/* only works with Nunito as GT Maru is a variable font and has a separate mixin */
+$font-weights: (
+  'ultralight': 100,
+  'thin': 200,
+  'regular': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700,
+);
+
+$spacings: (
+  'xxl': 64px,
+  'xl': 32px,
+  'l': 24px,
+  'm': 16px,
+  's': 12px,
+  'xs': 8px,
+  'xxs': 4px,
+  'xxxs': 2px,
+);
