@@ -81,6 +81,11 @@ export default defineNuxtConfig({
     },
   },
   vite: {
+    resolve: {
+      alias: {
+        '@googlemaps/js-api-loader': '@googlemaps/js-api-loader/dist/index.mjs',
+      },
+    },
     css: {
       preprocessorOptions: {
         scss: {
