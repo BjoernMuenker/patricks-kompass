@@ -93,6 +93,8 @@ export default defineNuxtConfig({
   },
   css: ['@/assets/scss/global-once.scss'],
   runtimeConfig: {
-    public: {},
+    public: {
+      GOOGLE_API_KEY: process.env.NUXT_PUBLIC_GOOGLE_API_KEY,
+    },
   },
 });

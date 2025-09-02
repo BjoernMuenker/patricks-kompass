@@ -20,7 +20,7 @@ body {
 
 main {
   position: relative;
-  overflow: auto;
+  overflow: hidden;
   overscroll-behavior: contain;
   height: 100%;
 }
@@ -32,7 +32,7 @@ body {
   // -webkit-font-smoothing: antialiased;
   // -moz-osx-font-smoothing: grayscale;
   font-family: 'Roboto Flex', sans-serif;
-  color: white;
+  color: black;
   background: color('dark');
   font-size: 20px;
 }
