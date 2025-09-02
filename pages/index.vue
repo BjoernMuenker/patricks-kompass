@@ -33,15 +33,25 @@
       result += index !== creators.length - 1 ? ', ' : ')';
     });
 
-    console.log(result);
     return result;
   }
 
-  function createClusterElement(count: number) {
+  function createClusterElement(count: number, data: CustomMarker[]) {
+    const allCreators = sortAlphabetically(
+      data
+        .filter((entry) => entry.creators)
+        .map((entry) => entry.creators)
+        .flat() as Creator[],
+      'asc',
+      'firstName'
+    );
+
     const div = document.createElement('div');
     div.classList.add('custom-marker');
     div.classList.add('cluster-marker');
+    div.style.background = getConicGradient(allCreators);
     div.textContent = String(count);
+
     return div;
   }
 
@@ -65,6 +75,8 @@
 
     // Add markers dynamically
     for (const marker of markers) {
+      marker.creators = marker.creatorIds.map((id) => creators[id]);
+
       const { placeId, lat, lng, creatorIds } = marker;
       const _creators = sortAlphabetically(
         creatorIds.map((id) => creators[id]),
@@ -76,9 +88,6 @@
       const el = document.createElement('div');
       el.classList.add('custom-marker');
       el.style.background = getConicGradient(_creators);
-      // el.style.cursor = 'pointer';
-      // el.style.border = '3px solid white';
-      // el.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02)';
 
       let place;
 
@@ -99,9 +108,10 @@
         content: el,
       });
 
+      advancedMarkerElement.customData = marker;
+
       // Optional click event
       advancedMarkerElement.addListener('click', async (e: any) => {
-        marker.creators = creatorIds.map((id) => creators[id]);
         activeMarker.value = marker;
 
         await nextTick();
@@ -143,57 +153,27 @@
 
     map.fitBounds(bounds, isPortrait ? 0 : window.innerWidth / 20);
 
-    const renderer = {
-      render: ({ count, position }: any) => {
-        return new markerLib.AdvancedMarkerElement({
-          position,
-          content: createClusterElement(count),
-          zIndex: 1000,
-        });
-      },
-    };
-
     new MarkerClusterer({
       markers: advancedMarkers,
       map,
-      renderer,
+      renderer: {
+        render: (cluster, stats, map) => {
+          const count = cluster.count;
+          const position = cluster.position;
+
+          const markerData = cluster.markers.map((marker) => marker.customData);
+
+          console.log(count);
+
+          return new markerLib.AdvancedMarkerElement({
+            position,
+            content: createClusterElement(count, markerData),
+            zIndex: 1000,
+          });
+        },
+      },
     });
   });
-
-  //  {
-  //       render: (cluster, stats, map) => {
-  //         console.log(cluster, stats, map);
-  //         // change color if this cluster has more markers than the mean cluster
-  //         // const color = stats.markers.sum > Math.max(10, stats.clusters.markers.mean) ? '#ff0000' : '#0000ff';
-  //         // create svg url with fill color
-  //         const svg = `
-
-  //           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-  //             <defs>
-  //               <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-  //                 <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.3)" />
-  //               </filter>
-  //             </defs>
-  //             <circle r="80" cx="100" cy="100" fill="#cdcdcd" stroke="white" stroke-width="12" filter="url(#shadow)" />
-  //           </svg>`;
-
-  //         // create marker using svg icon
-  //         return new google.maps.Marker({
-  //           position: cluster.position,
-  //           icon: {
-  //             url: `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`,
-  //             scaledSize: new google.maps.Size(50, 50),
-  //           },
-  //           label: {
-  //             text: String(cluster.count),
-  //             color: 'black',
-  //             fontWeight: '700',
-  //             fontSize: '18px',
-  //           },
-  //           // adjust zIndex to be above other markers
-  //           zIndex: 1000 + cluster.count,
-  //         });
-  //       },
 
   function closeOffCanvas() {
     document.querySelectorAll('.custom-marker').forEach((element) => element.classList.remove('active'));
@@ -302,7 +282,7 @@
     font-size: 24px;
     text-shadow: 2px 1px 5px black;
     // background: conic-gradient(blue, green, red, blue);
-    background: conic-gradient(blue 0deg 120deg, green 120deg 240deg, red 240deg 360deg);
+    // background: conic-gradient(blue 0deg 120deg, green 120deg 240deg, red 240deg 360deg);
     @include var-font-weight(600);
   }
 
