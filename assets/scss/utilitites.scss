@@ -127,6 +127,12 @@
   }
 }
 
+@mixin hover-only() {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
 @mixin glossy-edge($offset: 22) {
   &::before {
     position: absolute;

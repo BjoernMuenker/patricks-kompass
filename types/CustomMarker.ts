@@ -7,6 +7,6 @@ export type CustomMarker = {
   placeId?: string;
   title: string;
   description?: string;
-  creatorId: CreatorId;
-  creator?: Creator;
+  creatorIds: CreatorId[];
+  creators?: Creator[];
 };

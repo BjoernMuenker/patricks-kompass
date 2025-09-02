@@ -77,7 +77,7 @@ export default defineNuxtConfig({
           href: '/meta/apple-touch-icon.png',
         },
       ],
-      title: 'Popchron!',
+      title: 'Patricks Kompass',
     },
   },
   vite: {
