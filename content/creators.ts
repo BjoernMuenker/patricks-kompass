@@ -6,18 +6,18 @@ export const creators: { [key in CreatorId]: Creator } = {
     id: 'bjoern',
     firstName: 'Björn',
     lastName: 'Münker',
-    color: 'red',
+    color: '#bfef45',
   },
   laura: {
     id: 'laura',
     firstName: 'Laura',
     lastName: 'Orlowski',
-    color: 'green',
+    color: '#0082c8',
   },
   sophia: {
     id: 'sophia',
     firstName: 'Sophia',
     lastName: 'Zimmermann',
-    color: 'blue',
+    color: '#f032e6',
   },
 };
