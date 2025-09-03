@@ -40,10 +40,10 @@ export default defineNuxtConfig({
           property: 'og:description',
           content: `Die ideale Ergänzung zum Kompass - eine digitale Karte voller Erinnerungen und Empfehlungen deiner Freunde.`,
         },
-        { hid: 'og:image', property: 'og:image', content: 'https://www.patricks-kompass.de/assets/meta/open-graph-image.png' },
+        { hid: 'og:image', property: 'og:image', content: 'https://www.patricks-kompass.de/meta/open-graph-image.png' },
         { hid: 'og:image:width', property: 'og:image:width', content: '1200' },
         { hid: 'og:image:height', property: 'og:image:height', content: '630' },
-        { hid: 'twitter:title', name: 'twitter:title', content: 'https://www.patricks-kompass.de/assets/meta/twitter-image.png' },
+        { hid: 'twitter:title', name: 'twitter:title', content: 'https://www.patricks-kompass.de/meta/twitter-image.png' },
         { hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' },
         {
           hid: 'twitter:description',
