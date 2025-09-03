@@ -32,13 +32,13 @@ export default defineNuxtConfig({
         {
           hid: 'description',
           name: 'description',
-          content: `Die ideale Ergänzung zum Kompass - eine digitale Karte voller Erinnerungen und Empfehlungen deiner Freunde.`,
+          content: `Eine digitale Karte voller Erinnerungen und Empfehlungen deiner Freunde.`,
         },
         { hid: 'og:title', property: 'og:title', content: `Happy Birthday!` },
         {
           hid: 'og:description',
           property: 'og:description',
-          content: `Die ideale Ergänzung zum Kompass - eine digitale Karte voller Erinnerungen und Empfehlungen deiner Freunde.`,
+          content: `Eine digitale Karte voller Erinnerungen und Empfehlungen deiner Freunde.`,
         },
         { hid: 'og:image', property: 'og:image', content: 'https://www.patricks-kompass.de/meta/open-graph-image.png' },
         { hid: 'og:image:width', property: 'og:image:width', content: '1200' },
