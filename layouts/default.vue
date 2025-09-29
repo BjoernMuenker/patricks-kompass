@@ -1,7 +1,3 @@
-<script setup lang="ts">
-  import { useAppStore } from '~/store/appStore';
-</script>
-
 <template>
   <ClientOnly>
     <main>
@@ -9,5 +5,3 @@
     </main>
   </ClientOnly>
 </template>
-
-<style lang="scss" scoped></style>

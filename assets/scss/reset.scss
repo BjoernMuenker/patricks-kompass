@@ -26,7 +26,6 @@ main {
 }
 
 body {
-  // font-family: 'Franklin', sans-serif;
   // font-synthesis: none;
   // text-rendering: optimizeLegibility;
   // -webkit-font-smoothing: antialiased;
@@ -63,7 +62,6 @@ button {
   background: none;
   text-align: left;
   font-size: inherit;
-  // @include fluid-value('font-size', 0, 55);
 
   &:disabled {
     cursor: not-allowed;

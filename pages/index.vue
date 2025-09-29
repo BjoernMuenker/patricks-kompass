@@ -3,10 +3,10 @@
   import { Loader } from '@googlemaps/js-api-loader';
   import { markers } from '~/content/markers';
   import type { CustomMarker } from '~/types/CustomMarker';
-  import type { CreatorId } from '~/types/CreatorId';
   import { creators } from '~/content/creators';
   import type { Creator } from '~/types/Creator';
   import { MarkerClusterer } from '@googlemaps/markerclusterer';
+  import { colors } from '~/content/colors';
 
   const { $gsap } = useNuxtApp();
 
@@ -29,7 +29,7 @@
     let result = `conic-gradient(`;
 
     creators.forEach((creator, index) => {
-      result += `${creator.color} ${degPerCreator * index}deg ${degPerCreator * (index + 1)}deg`;
+      result += `${colors[creator.color]} ${degPerCreator * index}deg ${degPerCreator * (index + 1)}deg`;
       result += index !== creators.length - 1 ? ', ' : ')';
     });
 
@@ -56,6 +56,9 @@
   }
 
   onMounted(async () => {
+    console.log('MARKERS', markers.length);
+    console.log(markers.filter((marker) => marker.creatorIds.includes('laura')));
+
     // Import necessary libraries explicitly
     const googleMaps = await loader.importLibrary('maps');
     const markerLib = await loader.importLibrary('marker');
@@ -77,7 +80,7 @@
     for (const marker of markers) {
       marker.creators = marker.creatorIds.map((id) => creators[id]);
 
-      const { placeId, lat, lng, creatorIds } = marker;
+      const { lat, lng, creatorIds } = marker;
       const _creators = sortAlphabetically(
         creatorIds.map((id) => creators[id]),
         'asc',
@@ -89,22 +92,10 @@
       el.classList.add('custom-marker');
       el.style.background = getConicGradient(_creators);
 
-      let place;
-
-      if (placeId) {
-        place = new placesLibrary.Place({
-          id: placeId,
-        });
-
-        await place.fetchFields({ fields: ['location'] });
-
-        console.log({ lat: place.location.lat(), lng: place.location.lng() });
-      }
-
       const advancedMarkerElement = new markerLib.AdvancedMarkerElement({
         map,
         ...(lat && lng && { position: { lat, lng } }),
-        ...(place && place.location && { position: place.location }),
+
         content: el,
       });
 
@@ -123,7 +114,6 @@
         openOffCanvas();
 
         // Recenter map so marker stays in the visible center
-
         const windowHeight = window.innerHeight;
         const offCanvasHeight = document.querySelector('.off-canvas')?.clientHeight ?? 0;
         const offCanvasPercentage = offCanvasHeight / windowHeight;
@@ -162,8 +152,6 @@
           const position = cluster.position;
 
           const markerData = cluster.markers.map((marker) => marker.customData);
-
-          console.log(count);
 
           return new markerLib.AdvancedMarkerElement({
             position,
@@ -206,8 +194,31 @@
       </div>
       <button class="button-close-off-canvas" @click="closeOffCanvas">×</button>
     </div>
-    <div v-if="activeMarker?.description" class="off-canvas-body off-canvas-inner">
-      <div class="description" v-html="activeMarker?.description"></div>
+    <div v-if="activeMarker?.description || activeMarker?.link" class="off-canvas-body off-canvas-inner">
+      <div class="description">
+        <template v-if="Array.isArray(activeMarker.description)">
+          <div class="description-item" v-for="entry in activeMarker.description">
+            <div class="description-creator">
+              <div class="creator-color" :class="`background-${creators[entry.creatorId].color}`"></div>
+              <div class="creator-name">{{ creators[entry.creatorId].firstName }}</div>
+            </div>
+            <div v-if="entry.title" class="description-title">{{ entry.title }}</div>
+            <div v-if="entry.content" class="description-content" v-html="entry.content"></div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="description-item">
+            <div class="description-content" v-html="activeMarker?.description"></div>
+          </div>
+        </template>
+      </div>
+      <div v-if="activeMarker?.link" class="external-link">
+        <a :href="activeMarker.link" target="_blank">
+          <img v-if="activeMarker.link.startsWith('https://maps')" class="icon" src="/assets/svg/icon-google-maps.svg" />
+          <img v-else class="icon" src="/assets/svg/icon-air-bnb.svg" />
+          {{ activeMarker.link.startsWith('https://maps') ? 'Auf Google Maps ansehen' : 'Auf Airbnb ansehen' }}
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -252,17 +263,23 @@
 
   .custom-marker {
     position: relative;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     transform: translateY(50%);
-    border: 3px solid white;
+    border: 4px solid white;
     transform-origin: bottom;
-    transition: transform 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), 0 -1px 0px rgba(0, 0, 0, 0.1);
+    user-select: none;
 
     &.active {
       transform: scale(1.5) translateY(50%);
+    }
+
+    @include breakpoint('medium') {
+      width: 32px;
+      height: 32px;
     }
 
     @include hover-only {
@@ -273,17 +290,21 @@
   }
 
   .cluster-marker {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 24px;
-    text-shadow: 2px 1px 5px black;
-    // background: conic-gradient(blue, green, red, blue);
-    // background: conic-gradient(blue 0deg 120deg, green 120deg 240deg, red 240deg 360deg);
+    font-size: 20px;
+    text-shadow: 2px 1px 5px rgba(0, 0, 0, 0.7);
     @include var-font-weight(600);
+
+    @include breakpoint('medium') {
+      font-size: 24px;
+      width: 50px;
+      height: 50px;
+    }
   }
 
   .off-canvas {
@@ -291,7 +312,7 @@
     overflow: hidden;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+    box-shadow: 0 2px 2px rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
     max-height: 70%;
     width: 100%;
     background: white;
@@ -350,8 +371,9 @@
       }
     }
 
-    .description {
+    .description-content {
       font-size: 17px;
+      line-height: 1.4em;
 
       p + p {
         margin-top: spacing('m');
@@ -360,6 +382,80 @@
       @include breakpoint('medium') {
         font-size: 20px;
       }
+    }
+
+    .description-title {
+      font-size: 20px;
+      @include var-font-weight(550);
+      margin-bottom: spacing('s');
+
+      @include breakpoint('medium') {
+        font-size: 24px;
+      }
+    }
+
+    .description-creator {
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: spacing('xs');
+      margin-bottom: spacing('xxs');
+      // @include var-font-weight(550);
+      padding: spacing('xxs') spacing('xs') spacing('xxs') spacing('xxs');
+      border: 1px solid #cdcdcd;
+      border-radius: 30px;
+
+      .creator-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+      }
+
+      @include breakpoint('medium') {
+        font-size: 18px;
+      }
+    }
+
+    .description-item + .description-item {
+      margin-top: spacing('l');
+      padding-top: spacing('l');
+      border-top: 1px solid #cdcdcd;
+    }
+  }
+
+  .external-link {
+    margin-top: spacing('l');
+    font-size: 16px;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      padding: spacing('s') spacing('m');
+      border-radius: 8px;
+      border: 1px solid #cdcdcd;
+      border-bottom-width: 3px;
+      transition: background 0.3s, transform 0.3s;
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      @include hover-only {
+        &:hover {
+          background: #eaeaeaff;
+        }
+      }
+    }
+
+    @include breakpoint('medium') {
+      font-size: 19px;
+    }
+
+    .icon {
+      height: 24px;
+      margin-right: spacing('s');
+      padding-right: spacing('s');
+      border-right: 1px solid #cdcdcd;
     }
   }
 
@@ -384,7 +480,11 @@
     border-radius: 50%;
     background: rgb(235, 235, 235);
     flex-shrink: 0;
-    transition: background ease 0.3s;
+    transition: background 0.3s, transform 0.3s;
+
+    &:active {
+      transform: scale(0.8);
+    }
 
     @include hover-only {
       &:hover {
