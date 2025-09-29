@@ -17,7 +17,7 @@ export default defineNuxtConfig({
         {
           hid: 'apple-mobile-web-app-title',
           name: 'apple-mobile-web-app-title',
-          content: `Patricks Kompass`,
+          content: `Kompass`,
         },
         {
           hid: 'application-name',
