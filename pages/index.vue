@@ -270,7 +270,7 @@
     border: 4px solid white;
     transform-origin: bottom;
     transition: transform 0.3s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), 0 -1px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     user-select: none;
 
     &.active {

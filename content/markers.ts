@@ -5,7 +5,7 @@ export const markers: CustomMarker[] = [
     lat: 52.496593,
     lng: 13.437449,
     title: 'Görli.',
-    description: 'Nicht sprechen',
+    description: '<p>Nicht sprechen</p>',
     creatorIds: ['bjoern'],
   },
   {
@@ -13,7 +13,7 @@ export const markers: CustomMarker[] = [
     lng: 13.404775,
     title: 'Macke Prinz',
     description:
-      'Berlin hat nur diese eine Bar, oder? Und auch nur diesen einen Corner-Spot, richtig? Es wäre ja auch Wahnsinn, sich mal weiter raus zu trauen.',
+      '<p>Berlin hat nur diese eine Bar, oder? Und auch nur diesen einen Corner-Spot, richtig? Es wäre ja auch Wahnsinn, sich mal weiter raus zu trauen.</p>',
     creatorIds: ['bjoern'],
     link: 'https://maps.app.goo.gl/5hqfxYapdYM1wB2D8',
   },
@@ -22,7 +22,7 @@ export const markers: CustomMarker[] = [
     lng: 10.110881,
     title: 'Bex & Mareikes Hochzeit',
     description:
-      'Schön war das hier! Vor allem die Location und die veganen Würstchen, die wirklich erstaunlich nach Fleisch schmeckten. Also fast so, als wäre da Fleisch drin. Krass, was alles möglich ist in der heutigen Zeit.',
+      '<p>Schön war das hier! Vor allem die Location und die veganen Würstchen, die wirklich erstaunlich nach Fleisch schmeckten. Also fast so, als wäre da Fleisch drin. Krass, was alles möglich ist in der heutigen Zeit.</p>',
     link: 'https://maps.app.goo.gl/KhL4xPdf1hzPAkwL7',
     creatorIds: ['bjoern'],
   },
@@ -30,23 +30,23 @@ export const markers: CustomMarker[] = [
     lat: 47.001782,
     lng: 11.506068,
     title: 'Outside!!!',
-    description:
-      'Outside auf voller Lautstärke und dazu die Oliven aufm Amaturenbrett. Nicht mehr gaaaanz sicher auf welcher Autobahn das war, glaube aber, kurz vor irgendeiner Grenze, ich nehme einfach mal den Brennerpass.',
+    description: `<p>"Outside" auf voller Lautstärke und dazu die Oliven auf dem Armaturenbrett. Ich bin mir nicht mehr ganz sicher auf welcher Autobahn das war, glaube aber, kurz vor irgendeiner Grenze, ich nehme einfach mal den Brennerpass.</p>
+      <p>Der Marker hier steht natürlich auch stellvertretend für unseren ganzen Italien-Trip. Ich sag nur: Nachtwanderungen, Strafzettel, explodierende Feuerzeuge, Assassin's Creed, Wein ohne Korkenzieher, irgendwo im Nichts in ner Kurve pennen und tagelang nicht duschen - la dolce vita eben.</p>`,
     creatorIds: ['bjoern'],
   },
-  // italien
   {
     lat: 47.191444,
     lng: 8.395674,
     title: 'Sins',
-    description: 'Läääät, diese Gemeinde in der Schweiz heißt wirklich Sins! Sins! 40.000. Kleiner Pisser.',
+    description:
+      '<p>Läääät, diese Gemeinde in der Schweiz heißt wirklich Sins! Sins! Hat Britta ausfindig gemacht. Und jetzt 40.000 Liegestütze. Kleiner Pisser.</p>',
     creatorIds: ['bjoern'],
   },
   {
     lat: 41.836683630751736,
     lng: 6.793894236512097,
     title: 'Ich will nicht nüchtern sterben! 💊',
-    description: 'Irgendwo hier muss die Naomi gesunken und der Heli ins Wasser gekracht sein. Aber die Frage bleibt ja: Wo sind die Ludes?!',
+    description: '<p>Irgendwo hier muss die Naomi gesunken und der Heli ins Wasser gekracht sein. Aber die Frage bleibt ja: Wo sind die Ludes?!</p>',
     creatorIds: ['bjoern'],
   },
   {
@@ -54,7 +54,7 @@ export const markers: CustomMarker[] = [
     lng: 13.579556,
     title: 'Unsere Unterkunft an deinem 30sten!',
     description:
-      'Zu dem Zeitpunkt, wo ich das hier schreibe, waren wir zwar noch nicht da, aber ich hoffe einfach mal, hier entstehen ein paar ganz tolle Erinnerungen!',
+      '<p>Zu dem Zeitpunkt, wo ich das hier schreibe, waren wir zwar noch nicht da, aber ich hoffe einfach mal, hier entstehen ein paar ganz tolle Erinnerungen!</p>',
     creatorIds: ['bjoern'],
     link: 'https://www.airbnb.de/rooms/1099297141890162705?guests=1&adults=1&s=67&unique_share_id=7ef88f05-1ab9-4531-bd8f-5eb847773caa',
   },
@@ -65,15 +65,15 @@ export const markers: CustomMarker[] = [
     description: [
       {
         creatorId: 'bjoern',
-        title: 'Sans und Let Bude!',
+        title: 'Unsere Bude ❤️',
         content:
-          'The one and only. Verrückte, tolle Zeit! Irgendwie kaum zu glauben, dass jetzt keiner mehr von uns auf der Ecke da wohnt. Außer natürlich Manni!',
+          '<p>The one and only. Verrückte, tolle Zeit! Irgendwie kaum zu glauben, dass jetzt keiner mehr von uns auf der Ecke da wohnt. Außer natürlich Manni!</p>',
       },
       {
         creatorId: 'laura',
         title: 'Chaos WG Münker Wegener',
         content:
-          'Lax und Lax, verschieden und doch ein Paar, ziehen zusammen und die Clique ist da.Ob zu „König der Löwen“ gröhlend, am Klavier, oder im Leder-Outfit, die Nachbarn loben Sie noch dafür!',
+          '<p>Lax und Lax, verschieden und doch ein Paar, ziehen zusammen und die Clique ist da.Ob zu „König der Löwen“ gröhlend, am Klavier, oder im Leder-Outfit, die Nachbarn loben Sie noch dafür!</p>',
       },
     ],
     creatorIds: ['bjoern', 'laura'],
@@ -103,7 +103,7 @@ export const markers: CustomMarker[] = [
     lat: 41.149071,
     lng: -8.609218,
     title: 'LOBBB',
-    description: 'Beste Lobsterrolls und Bubbles zu kleine Preisen.',
+    description: '<p>Beste Lobsterrolls und Bubbles zu kleine Preisen.</p>',
     creatorIds: ['bjoern'],
     link: 'https://maps.app.goo.gl/caTekS1tGPmMr8Un6',
   },
@@ -111,7 +111,7 @@ export const markers: CustomMarker[] = [
     lat: 53.95809362101477,
     lng: 10.889774304044188,
     title: 'Bester Drift-Spot',
-    description: 'Es darf weiterhin nie öffentlich werden, aber man wird keinen besseren Ort finden, um mit einem Golf am Strand zu driften!',
+    description: '<p>Es darf weiterhin nie öffentlich werden, aber man wird keinen besseren Ort finden, um mit einem Golf am Strand zu driften!</p>',
     creatorIds: ['bjoern'],
   },
   {
@@ -119,7 +119,7 @@ export const markers: CustomMarker[] = [
     lng: 9.989434,
     title: 'Uni-Party',
     description:
-      'Ey, das waren auch wilde Zeiten. Aber am meisten im Kopf geblieben sind zwei Ereignisse, bin mir gerade nicht sicher, ob die sogar an der gleichen Party passiert sind: Zum einen, wie wir da die Fake-Weihnachtsgeschenke ausgepackt haben und um zum anderen, wie war da auf dem Müllcontainer geklettert sind und der Porsche-Heini uns angepöbelt hat. Legendär.',
+      '<p>Ey, das waren auch wilde Zeiten. Aber am meisten im Kopf geblieben sind zwei Ereignisse, bin mir gerade nicht sicher, ob die sogar an der gleichen Party passiert sind: Zum einen, wie wir da die Fake-Weihnachtsgeschenke ausgepackt haben und um zum anderen, wie war da auf dem Müllcontainer geklettert sind und der Porsche-Heini uns angepöbelt hat. Legendär.</p>',
     creatorIds: ['bjoern'],
   },
   {
@@ -131,11 +131,34 @@ export const markers: CustomMarker[] = [
     creatorIds: ['bjoern'],
   },
   {
+    lat: 52.378517,
+    lng: 9.741197,
+    title: 'Gestrandet am Hannover ZOB',
+    description: `<p>Weißt du noch Hans Zimmer live in Frankfurt? Mega geil. Und dann kam die Rückfahrt im Flixbus. Irgendwo in Hannover musste der Fahrer dann spät abends eine Pause machen und wir haben da am ZOB gehockt. Gerne sprengen!</p>`,
+    creatorIds: ['bjoern'],
+  },
+  {
     lat: 21.521757,
     lng: -77.781167,
     title: '"Tu amigo esta muy loco."',
     description: `<p>Legendärer Urlaub! Leider mit zu kleinem Abfluss im Klo 💩.</p>`,
     creatorIds: ['bjoern'],
+  },
+  {
+    lat: 53.585118,
+    lng: 9.974025,
+    title: '1. Wohnung alleine',
+    description: [
+      {
+        creatorId: 'bjoern',
+        content: `<p>Man sollte vor allem über dieses Badezimmer sprechen! Wenn man da auf Klo war, musste die Tür offen bleiben, weil man mit den Füßen im Flur hing, hahaha.</p>`,
+      },
+      {
+        creatorId: 'hannes',
+        content: `<p>Hahaha! Einfach nur ein paar Stichpunkte: Straßenschild, Kontaktlinsenflüssigkeit, Carbonara, Dicke, Psychopath, Fenster etc.</p>`,
+      },
+    ],
+    creatorIds: ['bjoern', 'hannes'],
   },
   {
     lat: 52.542282,
@@ -298,13 +321,6 @@ export const markers: CustomMarker[] = [
       },
     ],
     creatorIds: ['bjoern', 'hannes'],
-  },
-  {
-    lat: 53.585123,
-    lng: 9.974307,
-    title: '1. Wohnung alleine',
-    description: `<p>Hahaha! Einfach nur ein paar Stichpunkte: Straßenschild, Kontaktlinsenflüssigkeit, Carbonara, Dicke, Psychopath, Fenster etc.</p>`,
-    creatorIds: ['hannes'],
   },
   {
     lat: 53.584428,
