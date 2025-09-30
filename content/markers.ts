@@ -769,8 +769,8 @@ export const markers: CustomMarker[] = [
     link: 'https://maps.app.goo.gl/ceVeeVAvtmoR5pDF6',
   },
   {
-    lat: 52.51913,
-    lng: 13.392139,
+    lat: 52.5177,
+    lng: 13.378011,
     title: 'Deutscher Bundestag',
     description: '<p>Wörk, wörk, wörk. Und auf meine Krone für die beste Patin ever warte ich bis heute...</p>',
     creatorIds: ['julia'],
