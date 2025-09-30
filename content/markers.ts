@@ -67,7 +67,7 @@ export const markers: CustomMarker[] = [
         creatorId: 'bjoern',
         title: 'Unsere Bude ❤️',
         content:
-          '<p>The one and only. Verrückte, tolle Zeit! Irgendwie kaum zu glauben, dass jetzt keiner mehr von uns auf der Ecke da wohnt. Außer natürlich Manni!</p>',
+          '<p>The one and only. Verrückte, tolle, wichtige Zeit! Irgendwie kaum zu glauben, dass jetzt keiner mehr von uns auf der Ecke da wohnt. Außer natürlich Manni!</p>',
       },
       {
         creatorId: 'laura',
@@ -86,7 +86,7 @@ export const markers: CustomMarker[] = [
       {
         creatorId: 'bjoern',
         content:
-          '<p>Absolute Frechheit, Lax und meine WG als Chaos-WG zu bezeichnen, Laura !!111!. Wer im Glashaus sitzt, sollte lieber im Keller bumsen!. Aber ja, schön ist es hier, egal ob beim CSD, Halloween, Geburtstagen, einfach nur zum Frühstücken oder Zocken.</p>',
+          '<p>Absolute Frechheit, Lax und meine WG als Chaos-WG zu bezeichnen, Laura !!111!. Wer im Glashaus sitzt, sollte lieber im Keller bumsen! Aber zugegeben, schön ist es hier, egal ob beim CSD, Halloween, Geburtstagen, einfach nur zum Frühstücken oder Zocken.</p>',
       },
       {
         creatorId: 'laura',

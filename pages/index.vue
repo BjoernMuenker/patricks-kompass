@@ -49,15 +49,25 @@
     const div = document.createElement('div');
     div.classList.add('custom-marker');
     div.classList.add('cluster-marker');
-    div.style.background = getConicGradient(allCreators);
-    div.textContent = String(count);
+
+    const markerScale = document.createElement('div');
+    markerScale.classList.add('marker-scale');
+
+    const inner = document.createElement('div');
+    inner.classList.add('marker-inner');
+
+    inner.style.background = getConicGradient(allCreators);
+    inner.textContent = String(count);
+
+    markerScale.appendChild(inner);
+    div.appendChild(markerScale);
 
     return div;
   }
 
   onMounted(async () => {
-    console.log('MARKERS', markers.length);
-    console.log(markers.filter((marker) => marker.creatorIds.includes('laura')));
+    // console.log('MARKERS', markers.length);
+    // console.log(markers.filter((marker) => marker.creatorIds.includes('laura')));
 
     // Import necessary libraries explicitly
     const googleMaps = await loader.importLibrary('maps');
@@ -90,7 +100,21 @@
       // Create DOM element for marker content
       const el = document.createElement('div');
       el.classList.add('custom-marker');
-      el.style.background = getConicGradient(_creators);
+
+      const markerScale = document.createElement('div');
+      markerScale.classList.add('marker-scale');
+
+      const inner = document.createElement('div');
+      inner.classList.add('marker-inner');
+      inner.style.background = getConicGradient(_creators);
+
+      const pulse = document.createElement('div');
+      pulse.classList.add('marker-pulse');
+      pulse.style.background = getConicGradient(_creators);
+
+      markerScale.appendChild(pulse);
+      markerScale.appendChild(inner);
+      el.appendChild(markerScale);
 
       const advancedMarkerElement = new markerLib.AdvancedMarkerElement({
         map,
@@ -102,6 +126,12 @@
       advancedMarkerElement.customData = marker;
 
       // Optional click event
+      advancedMarkerElement.addListener('mouse', async (e: any) => {
+        console.log('mouseover');
+        advancedMarkerElement.zIndex = 9999;
+        advancedMarkers.forEach((marker) => (marker.zIndex = 1));
+      });
+
       advancedMarkerElement.addListener('click', async (e: any) => {
         activeMarker.value = marker;
 
@@ -110,6 +140,12 @@
         document.querySelectorAll('.custom-marker').forEach((element) => element.classList.remove('active'));
 
         e.domEvent.target.classList.add('active');
+
+        // Reset zIndex for all markers
+        advancedMarkers.forEach((marker) => (marker.zIndex = 1));
+
+        // Bring the active one to the top
+        advancedMarkerElement.zIndex = 9999;
 
         openOffCanvas();
 
@@ -132,14 +168,11 @@
     if (advancedMarkers.length === 0) return;
 
     const bounds = new google.maps.LatLngBounds();
+    const isPortrait = window.innerWidth / window.innerHeight < 1;
 
     advancedMarkers.forEach((marker) => {
-      if (marker.position) {
-        bounds.extend(marker.position);
-      }
+      bounds.extend(marker.position);
     });
-
-    const isPortrait = window.innerWidth / window.innerHeight < 1;
 
     map.fitBounds(bounds, isPortrait ? 0 : window.innerWidth / 20);
 
@@ -195,7 +228,7 @@
       <button class="button-close-off-canvas" @click="closeOffCanvas">×</button>
     </div>
     <div v-if="activeMarker?.description || activeMarker?.link" class="off-canvas-body off-canvas-inner">
-      <div class="description">
+      <div v-if="activeMarker.description" class="description">
         <template v-if="Array.isArray(activeMarker.description)">
           <div class="description-item" v-for="entry in activeMarker.description">
             <div class="description-creator">
@@ -262,48 +295,139 @@
   }
 
   .custom-marker {
-    position: relative;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    transform: translateY(50%);
-    border: 4px solid white;
-    transform-origin: bottom;
-    transition: transform 0.3s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
     user-select: none;
-
-    &.active {
-      transform: scale(1.5) translateY(50%);
-    }
+    transition: height 0.3s, width 0.3s;
 
     @include breakpoint('medium') {
-      width: 32px;
-      height: 32px;
+      width: 48px;
+      height: 48px;
+    }
+
+    &.cluster-marker .marker-scale {
+      width: 40px;
+      height: 40px;
+
+      @include breakpoint('medium') {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    &.active {
+      .marker-scale {
+        width: 36px;
+        height: 36px;
+
+        @include breakpoint('medium') {
+          width: 42px;
+          height: 42px;
+        }
+      }
+
+      .marker-pulse {
+        opacity: 1;
+        animation: pulse 1.5s infinite;
+      }
+    }
+
+    * {
+      pointer-events: none;
+    }
+
+    .marker-scale {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform-origin: center center;
+      transition: width 0.3s, height 0.3s;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+
+      @include breakpoint('medium') {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    .marker-inner {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+      z-index: 2;
+      color: white;
+      font-size: 18px;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
+      @include var-font-weight(600);
+
+      @include breakpoint('medium') {
+        font-size: 20px;
+      }
+    }
+
+    .marker-pulse {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      z-index: 1;
+      opacity: 0;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.8);
+        opacity: 1;
+      }
+
+      70%,
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
     }
 
     @include hover-only {
       &:hover {
-        transform: scale(1.5) translateY(50%);
+        .marker-scale {
+          width: 36px;
+          height: 36px;
+
+          @include breakpoint('medium') {
+            width: 42px;
+            height: 42px;
+          }
+        }
+
+        &.cluster-marker .marker-scale {
+          width: 52px;
+          height: 52px;
+
+          @include breakpoint('medium') {
+            width: 62px;
+            height: 62px;
+          }
+        }
       }
-    }
-  }
-
-  .cluster-marker {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 20px;
-    text-shadow: 2px 1px 5px rgba(0, 0, 0, 0.7);
-    @include var-font-weight(600);
-
-    @include breakpoint('medium') {
-      font-size: 24px;
-      width: 50px;
-      height: 50px;
     }
   }
 
@@ -331,7 +455,6 @@
       transform: translate(calc(-100% - 30px), 0);
       top: 30px;
       left: 30px;
-      // height: calc(100% - 60px);
       width: 500px;
       bottom: initial;
       border-radius: 20px;
@@ -400,7 +523,6 @@
       align-items: center;
       gap: spacing('xs');
       margin-bottom: spacing('xxs');
-      // @include var-font-weight(550);
       padding: spacing('xxs') spacing('xs') spacing('xxs') spacing('xxs');
       border: 1px solid #cdcdcd;
       border-radius: 30px;
@@ -423,8 +545,11 @@
     }
   }
 
-  .external-link {
+  .description + .external-link {
     margin-top: spacing('l');
+  }
+
+  .external-link {
     font-size: 16px;
 
     a {
@@ -465,10 +590,6 @@
     @include breakpoint('large') {
       padding: 0 spacing('xl');
     }
-  }
-
-  .button-container {
-    position: relative;
   }
 
   .button-close-off-canvas {
