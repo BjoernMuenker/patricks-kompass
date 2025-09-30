@@ -11,12 +11,9 @@
   const { $gsap } = useNuxtApp();
 
   const activeMarker = ref<CustomMarker>();
-
-  // Map container reference
   const mapElement = ref<HTMLElement | null>(null);
-  let map: any = null;
+  let map: google.maps.Map | null = null;
 
-  // Initialize the Google Maps loader using GOOGLE_API_KEY
   const loader = new Loader({
     apiKey: useRuntimeConfig().public.GOOGLE_API_KEY,
     version: 'weekly',
@@ -65,14 +62,8 @@
   }
 
   onMounted(async () => {
-    // console.log('MARKERS', markers.length);
-    // console.log(markers.filter((marker) => marker.creatorIds.includes('laura')));
-
-    // Import necessary libraries explicitly
-    const googleMaps = await loader.importLibrary('maps');
     const markerLib = await loader.importLibrary('marker');
 
-    // Create the map
     map = new google.maps.Map(mapElement.value as HTMLElement, {
       disableDefaultUI: true,
       mapId: '1d09d952f280d55f39d1e5d1',
@@ -84,7 +75,6 @@
 
     const advancedMarkers: google.maps.AdvancedMarkerElement[] = [];
 
-    // Add markers dynamically
     for (const marker of markers) {
       marker.creators = marker.creatorIds.map((id) => creators[id]);
 
@@ -95,7 +85,6 @@
         'firstName'
       );
 
-      // Create DOM element for marker content
       const el = document.createElement('div');
       el.classList.add('custom-marker');
 
@@ -122,7 +111,6 @@
 
       advancedMarkerElement.customData = marker;
 
-      // Optional click event
       advancedMarkerElement.addListener('mouse', async (e: any) => {
         console.log('mouseover');
         advancedMarkerElement.zIndex = 9999;
@@ -130,6 +118,7 @@
       });
 
       advancedMarkerElement.addListener('click', async (e: any) => {
+        if (!map) return;
         activeMarker.value = marker;
 
         await nextTick();
@@ -137,16 +126,11 @@
         document.querySelectorAll('.custom-marker').forEach((element) => element.classList.remove('active'));
 
         e.domEvent.target.classList.add('active');
-
-        // Reset zIndex for all markers
         advancedMarkers.forEach((marker) => (marker.zIndex = 1));
-
-        // Bring the active one to the top
         advancedMarkerElement.zIndex = 9999;
 
         openOffCanvas();
 
-        // Recenter map so marker stays in the visible center
         const windowHeight = window.innerHeight;
         const offCanvasHeight = document.querySelector('.off-canvas')?.clientHeight ?? 0;
         const offCanvasPercentage = offCanvasHeight / windowHeight;
@@ -161,7 +145,6 @@
       advancedMarkers.push(advancedMarkerElement);
     }
 
-    // After markers are added, compute bounds
     if (advancedMarkers.length === 0) return;
 
     const bounds = new google.maps.LatLngBounds();
@@ -284,7 +267,7 @@
     gap: spacing('xs');
     align-items: center;
     padding: spacing('xxs') spacing('xs') spacing('xxs') spacing('xxs');
-    border: 1px solid #cdcdcd;
+    border: 1px solid color('grey');
     border-radius: 30px;
     font-size: 16px;
 
@@ -493,6 +476,28 @@
       }
     }
 
+    .button-close-off-canvas {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: color('grey-light');
+      flex-shrink: 0;
+      transition: background 0.3s, transform 0.3s;
+
+      &:active {
+        transform: scale(0.8);
+      }
+
+      @include hover-only {
+        &:hover {
+          background: color('grey');
+        }
+      }
+    }
+
     .title {
       font-size: 24px;
       margin-top: spacing('xs');
@@ -533,7 +538,7 @@
       gap: spacing('xs');
       margin-bottom: spacing('xxs');
       padding: spacing('xxs') spacing('xs') spacing('xxs') spacing('xxs');
-      border: 1px solid #cdcdcd;
+      border: 1px solid color('grey');
       border-radius: 30px;
 
       .creator-color {
@@ -550,7 +555,7 @@
     .description-item + .description-item {
       margin-top: spacing('l');
       padding-top: spacing('l');
-      border-top: 1px solid #cdcdcd;
+      border-top: 1px solid color('grey');
     }
   }
 
@@ -566,7 +571,7 @@
       align-items: center;
       padding: spacing('s') spacing('m');
       border-radius: 8px;
-      border: 1px solid #cdcdcd;
+      border: 1px solid color('grey');
       border-bottom-width: 3px;
       transition: background 0.3s, transform 0.3s;
 
@@ -576,7 +581,7 @@
 
       @include hover-only {
         &:hover {
-          background: #eaeaeaff;
+          background: color('grey-light');
         }
       }
     }
@@ -589,7 +594,7 @@
       height: 24px;
       margin-right: spacing('s');
       padding-right: spacing('s');
-      border-right: 1px solid #cdcdcd;
+      border-right: 1px solid color('grey');
     }
   }
 
@@ -598,28 +603,6 @@
 
     @include breakpoint('large') {
       padding: 0 spacing('xl');
-    }
-  }
-
-  .button-close-off-canvas {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgb(235, 235, 235);
-    flex-shrink: 0;
-    transition: background 0.3s, transform 0.3s;
-
-    &:active {
-      transform: scale(0.8);
-    }
-
-    @include hover-only {
-      &:hover {
-        background: #cdcdcd;
-      }
     }
   }
 </style>

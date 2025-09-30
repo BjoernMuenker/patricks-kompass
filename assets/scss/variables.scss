@@ -1,19 +1,11 @@
 @use 'sass:map';
 
-$screen-tint: #a5b29c;
-
 $colors: (
-  'black': #000000,
-  'grey-light': #c4c4c4,
-  'grey': #5a594e,
-  'white': #ffffff,
-  'base': #a5b29c,
-  'dark': #121212,
-  'medium': #525e49,
-  'light': #7a8d6e,
   'blue': #0082c8,
   'cyan': #46f0f0,
   'green': #3cb44b,
+  'grey': #cdcdcd,
+  'grey-light': #eaeaea,
   'lime': #bfef45,
   'magenta': #f032e6,
   'orange': #f58231,

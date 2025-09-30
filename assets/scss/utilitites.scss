@@ -133,21 +133,6 @@
   }
 }
 
-@mixin glossy-edge($offset: 22) {
-  &::before {
-    position: absolute;
-    content: '';
-    left: 50%;
-    top: 50%;
-    width: 100% - $offset;
-    height: 100% - $offset;
-    transform: translate(-50%, -50%);
-    border: 3px solid color('secondary-white');
-    border-radius: 50%;
-    clip-path: polygon(0% 10%, 50% 50%, 5% 0%, 20% 0%, 50% 50%, 100% 75%, 75% 100%, 50% 50%, 0% 40%);
-  }
-}
-
 @mixin generate-font-weight-classes {
   @each $key, $value in $font-weights {
     .font-weight-#{$key} {

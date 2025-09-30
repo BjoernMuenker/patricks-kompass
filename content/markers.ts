@@ -100,6 +100,22 @@ export const markers: CustomMarker[] = [
     creatorIds: ['bjoern', 'laura', 'sophia'],
   },
   {
+    lat: 53.620577,
+    lng: 9.86355,
+    title: 'TV-AG Raum',
+    description: [
+      {
+        creatorId: 'bjoern',
+        content: `<p>Gurke!!! Und natürlich steht der Marker irgendwie auch für unsere Zeit am WoBo ingesamt. Kann man sowieso nicht in Wort fassen. Fest steht: Bestes Schulpärchen ever ❤️</p>`,
+      },
+      {
+        creatorId: 'hannes',
+        content: `<p>Na, noch schnell ein Plakat für den Tag der offenen Tür machen? Aber vorher noch 'n Shot! #UranovRED 😬</p>`,
+      },
+    ],
+    creatorIds: ['bjoern', 'hannes'],
+  },
+  {
     lat: 41.149071,
     lng: -8.609218,
     title: 'LOBBB',
@@ -419,22 +435,6 @@ export const markers: CustomMarker[] = [
       },
     ],
     creatorIds: ['hannes', 'laura', 'sophia'],
-  },
-  {
-    lat: 53.620577,
-    lng: 9.86355,
-    title: 'TV-AG Raum',
-    description: [
-      {
-        creatorId: 'bjoern',
-        content: `<p>Gurke!!! Und natürlich steht der Marker irgendwie auch für unsere Zeit am WoBo ingesamt. Kann man sowieso nicht in Wort fassen. Fest steht: Bestes Schulpärchen ever ❤️</p>`,
-      },
-      {
-        creatorId: 'hannes',
-        content: `<p>Na, noch schnell ein Plakat für den Tag der offenen Tür machen? Aber vorher noch 'n Shot! #UranovRED 😬</p>`,
-      },
-    ],
-    creatorIds: ['bjoern', 'hannes'],
   },
   {
     lat: 53.584428,

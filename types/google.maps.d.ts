@@ -1,4 +1,3 @@
-// google-maps.d.ts
 declare global {
   namespace google {
     export namespace maps {
@@ -10,6 +9,7 @@ declare global {
         getZoom(): number;
         panBy(x: number, y: number): void;
         fitBounds(bounds: LatLngBounds, padding?: number): void;
+        setOptions({ clickableIcons: boolean }): void;
       }
 
       interface MapOptions {
@@ -67,7 +67,6 @@ declare global {
         content: HTMLElement;
       }
 
-      // Events
       const event: {
         addListener(instance: any, eventName: string, handler: (...args: any[]) => void): void;
         addListenerOnce(instance: any, eventName: string, handler: (...args: any[]) => void): void;
