@@ -2,7 +2,6 @@
 declare global {
   namespace google {
     export namespace maps {
-      // Map
       class Map {
         constructor(mapDiv: HTMLElement, opts?: MapOptions);
         setCenter(latLng: LatLng | LatLngLiteral): void;
@@ -22,7 +21,6 @@ declare global {
         styles?: any[];
       }
 
-      // LatLng & LatLngLiteral
       class LatLng {
         constructor(lat: number, lng: number);
         lat(): number;
@@ -34,7 +32,6 @@ declare global {
         lng: number;
       }
 
-      // LatLngBounds
       class LatLngBounds {
         constructor(sw?: LatLng | LatLngLiteral, ne?: LatLng | LatLngLiteral);
         extend(point: LatLng | LatLngLiteral): LatLngBounds;
@@ -43,18 +40,8 @@ declare global {
         getSouthWest(): LatLng;
       }
 
-      // Size
       class Size {
         constructor(width: number, height: number, widthUnit?: string, heightUnit?: string);
-      }
-
-      // Marker
-      class Marker {
-        constructor(opts?: MarkerOptions);
-        setMap(map: Map | null): void;
-        getMap(): Map | null;
-        setPosition(position: LatLng | LatLngLiteral): void;
-        getPosition(): LatLng | null;
       }
 
       interface MarkerOptions {
@@ -64,13 +51,13 @@ declare global {
         clickable?: boolean;
       }
 
-      // AdvancedMarkerElement (new marker API)
       class AdvancedMarkerElement {
         constructor(opts: AdvancedMarkerElementOptions);
         map: Map | null;
         position: LatLng | LatLngLiteral;
         title?: string;
         content: HTMLElement;
+        zIndex: number;
       }
 
       interface AdvancedMarkerElementOptions {
@@ -78,22 +65,6 @@ declare global {
         position: LatLng | LatLngLiteral;
         title?: string;
         content: HTMLElement;
-      }
-
-      // Places library (partial)
-      export namespace places {
-        class Place {
-          constructor(opts: PlaceOptions);
-          id: string;
-          displayName?: string;
-          location?: LatLng;
-          fetchFields(opts: { fields: string[] }): Promise<void>;
-        }
-
-        interface PlaceOptions {
-          id: string;
-          requestedLanguage?: string;
-        }
       }
 
       // Events

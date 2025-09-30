@@ -20,7 +20,6 @@
   const loader = new Loader({
     apiKey: useRuntimeConfig().public.GOOGLE_API_KEY,
     version: 'weekly',
-    libraries: ['places'],
   });
 
   function getConicGradient(creators: Creator[]) {
@@ -72,19 +71,18 @@
     // Import necessary libraries explicitly
     const googleMaps = await loader.importLibrary('maps');
     const markerLib = await loader.importLibrary('marker');
-    const placesLibrary = await loader.importLibrary('places');
 
     // Create the map
     map = new google.maps.Map(mapElement.value as HTMLElement, {
-      disableDefaultUI: true, // disables all default UI elements
+      disableDefaultUI: true,
       mapId: '1d09d952f280d55f39d1e5d1',
     });
 
     map.setOptions({
-      clickableIcons: false, // disable all built-in POI clicks
+      clickableIcons: false,
     });
 
-    const advancedMarkers = [];
+    const advancedMarkers: google.maps.AdvancedMarkerElement[] = [];
 
     // Add markers dynamically
     for (const marker of markers) {
@@ -119,7 +117,6 @@
       const advancedMarkerElement = new markerLib.AdvancedMarkerElement({
         map,
         ...(lat && lng && { position: { lat, lng } }),
-
         content: el,
       });
 
@@ -186,11 +183,23 @@
 
           const markerData = cluster.markers.map((marker) => marker.customData);
 
-          return new markerLib.AdvancedMarkerElement({
+          const clusterMarker = new markerLib.AdvancedMarkerElement({
             position,
             content: createClusterElement(count, markerData),
             zIndex: 1000,
           });
+
+          clusterMarker.addListener('click', (e: Event) => {
+            const bounds = new google.maps.LatLngBounds();
+            cluster.markers.forEach((m) => bounds.extend(m.position));
+
+            const padding = window.innerWidth >= 1024 ? 200 : 100;
+            map.fitBounds(bounds, padding);
+
+            e.preventDefault();
+          });
+
+          return clusterMarker;
         },
       },
     });
